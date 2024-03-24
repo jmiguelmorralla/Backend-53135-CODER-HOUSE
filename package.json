@@ -1,0 +1,28 @@
+{
+  "name": "backend-53135-coder-house",
+  "version": "1.0.0",
+  "description": "Tercer desafío entregable - Curso Backend",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node ./server.js",
+    "dev": "nodemon ./server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jmiguelmorralla/Backend-53135-CODER-HOUSE.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jmiguelmorralla/Backend-53135-CODER-HOUSE/issues"
+  },
+  "homepage": "https://github.com/jmiguelmorralla/Backend-53135-CODER-HOUSE#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "dependencies": {
+    "express": "^4.19.1"
+  }
+}

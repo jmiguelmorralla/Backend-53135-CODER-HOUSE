@@ -5,7 +5,7 @@ class ProductManager {
   create(data) {
     try {
       const product = {
-        id: crypto.randomBytes(12).toString("hex"),
+        id: data.id || crypto.randomBytes(12).toString("hex"),
         title: data.title,
         photo:
           data.photo ||
@@ -16,10 +16,10 @@ class ProductManager {
       };
 
       if (!data.stock || !data.title || !data.category || !data.price) {
-        console.log("Producto no creado. Ingrese todos los datos requeridos.");
+        console.log("Not created file. Please complete required data.");
       } else {
         ProductManager.#products.push(product);
-        console.log("Producto Creado");
+        console.log("Created Product.");
       }
     } catch (error) {
       console.log(error);
@@ -29,7 +29,7 @@ class ProductManager {
     try {
       const products = ProductManager.#products;
       if (!products) {
-        throw new Error("ERROR EN LA LECTURA DEL ARRAY");
+        throw new Error("Error at reading array.");
       } else {
         return products;
       }
@@ -41,8 +41,9 @@ class ProductManager {
   readOne(id) {
     try {
       const product = ProductManager.#products.find((each) => each.id === id);
+      console.log(product)
       if (!product) {
-        throw new Error("NO EXISTE EL PRODUCTO");
+        throw new Error("Product does not exist.");
       } else {
         return product;
       }
@@ -57,10 +58,10 @@ class ProductManager {
         (each) => each.id !== id
       );
       if (!id) {
-        throw new Error("NO EXISTE USUARIO CON ESE ID");
+        throw new Error("Product does not exist.");
       } else {
         ProductManager.#products = filtered;
-        console.log("USUARIO" + id + " ELIMINADO");
+        console.log("Deleted " + id + " product.");
       }
     } catch (error) {
       console.log(error);
@@ -68,9 +69,9 @@ class ProductManager {
   }
 }
 
-const gestorDeProductos = new ProductManager();
+const productManager = new ProductManager();
 
-gestorDeProductos.create({
+productManager.create({
   photo: "foto55.jpg",
   title: "Balancin",
   category: "madera",
@@ -78,7 +79,7 @@ gestorDeProductos.create({
   stock: 41,
 });
 
-gestorDeProductos.create({
+productManager.create({
   photo: "foto7.jpg",
   title: "Bloques",
   category: "plastico",
@@ -86,14 +87,14 @@ gestorDeProductos.create({
   stock: 36,
 });
 
-gestorDeProductos.create({
+productManager.create({
   title: "Casita",
   category: "madera",
   price: 6500,
   stock: 22,
 });
 
-gestorDeProductos.create({
+productManager.create({
   photo: "luna4.jpg",
   title: "Luna",
   category: "madera",
@@ -101,7 +102,7 @@ gestorDeProductos.create({
   stock: 39,
 });
 
-gestorDeProductos.create({
+productManager.create({
   photo: "arcoiris.jpg",
   title: "Arcoiris",
   category: "madera",
@@ -109,14 +110,14 @@ gestorDeProductos.create({
   stock: 36,
 });
 
-gestorDeProductos.create({
+productManager.create({
   title: "Pajarito",
   category: "tela",
-  price: 6,
+  price: 6000,
   stock: 18,
 });
 
-gestorDeProductos.create({
+productManager.create({
   photo: "foto1.jpg",
   title: "Piramide",
   category: "madera",
@@ -124,7 +125,7 @@ gestorDeProductos.create({
   stock: 21,
 });
 
-gestorDeProductos.create({
+productManager.create({
   photo: "foto344.jpg",
   title: "Auto",
   category: "madera",
@@ -132,7 +133,7 @@ gestorDeProductos.create({
   stock: 12,
 });
 
-gestorDeProductos.create({
+productManager.create({
   photo: "Titere.jpg",
   title: "Titere",
   category: "tela",
@@ -140,7 +141,7 @@ gestorDeProductos.create({
   stock: 36,
 });
 
-gestorDeProductos.create({
+productManager.create({
   photo: "serpiente.jpg",
   title: "Serpiente",
   category: "tela",
@@ -148,4 +149,82 @@ gestorDeProductos.create({
   stock: 7,
 });
 
-console.log(gestorDeProductos.read());
+productManager.create({
+  photo: "foto5.jpg",
+  title: "Tobogan",
+  category: "plastico",
+  price: 45000,
+  stock: 15,
+});
+
+productManager.create({
+  photo: "fotom.jpg",
+  title: "Muneca",
+  category: "plastico",
+  price: 7200,
+  stock: 40,
+});
+
+productManager.create({
+  title: "Perro",
+  category: "madera",
+  price: 3500,
+  stock: 20,
+});
+
+productManager.create({
+  photo: "Elefante.jpg",
+  title: "Elefante",
+  category: "madera",
+  price: 8500,
+  stock: 60,
+});
+
+productManager.create({
+  photo: "Tigre.jpg",
+  title: "Tigre",
+  category: "madera",
+  price: 7000,
+  stock: 7,
+});
+
+productManager.create({
+  title: "Barco",
+  category: "plastico",
+  price: 5000,
+  stock: 25,
+});
+
+productManager.create({
+  photo: "foto13244.jpg",
+  title: "Bolitas",
+  category: "vidrio",
+  price: 3500,
+  stock: 20,
+});
+
+productManager.create({
+  photo: "foto34111.jpg",
+  title: "Raton",
+  category: "tela",
+  price: 3000,
+  stock: 10,
+});
+
+productManager.create({
+  photo: "doctor.jpg",
+  title: "Kit medico",
+  category: "plastico",
+  price: 6600,
+  stock: 3,
+});
+
+productManager.create({
+  photo: "animales.jpg",
+  title: "Animalitos",
+  category: "plastico",
+  price: 4600,
+  stock: 15,
+});
+
+console.log(productManager.read());

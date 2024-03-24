@@ -11,14 +11,14 @@ class UserManager {
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRueick0BA5tVSQJFjPJ49GPHAl30OzLnSjvRT_rpGv784YF5bCSHJ7V_qFVQ3aDkM2qlQ&usqp=CAU",
         email: data.email,
         password: data.password,
-        role: data.role,
+        role: data.role || "0",
       };
 
       if (!data.email || !data.password || !data.role) {
-        console.log("Usuario no creado. Ingrese todos los datos requeridos.");
+        console.log("Not created user. Please complete required data.");
       } else {
         UserManager.#users.push(user);
-        console.log("Usuario Creado.");
+        console.log("User created succesfully.");
       }
     } catch (error) {
       console.log(error);
@@ -28,7 +28,7 @@ class UserManager {
     try {
       const users = UserManager.#users;
       if (!users) {
-        throw new Error("ERROR EN LA LECTURA DEL ARRAY");
+        throw new Error("Fail at reading array");
       } else {
         return users;
       }
@@ -41,7 +41,7 @@ class UserManager {
     try {
       const user = UserManager.#users.find((each) => each.id === id);
       if (!user) {
-        throw new Error("NO EXISTE EL USUARIO.");
+        throw new Error("User not found.");
       } else {
         return user;
       }
@@ -54,10 +54,10 @@ class UserManager {
     try {
       const filtered = UserManager.#users.filter((each) => each.id !== id);
       if (!id) {
-        throw new Error("NO EXISTEN USUARIOS CON ESE ID");
+        throw new Error("No ID users found.");
       } else {
         UserManager.#users = filtered;
-        console.log("USUARIO " + id + " ELIMINADO");
+        console.log("Deleted " + id + " user.");
       }
     } catch (error) {
       console.log(error);
@@ -65,33 +65,33 @@ class UserManager {
   }
 }
 
-const gestorDeUsuarios = new UserManager();
+const usersManager = new UserManager();
 
-gestorDeUsuarios.create({
+usersManager.create({
   photo: "foto.jpg",
   email: "juan@gmail.com",
   password: "holapepito@",
-  role: "admin",
+  role: "1",
 });
 
-gestorDeUsuarios.create({
+usersManager.create({
   email: "cecilia@gmail.com",
   password: "Cecilia123",
-  role: "user",
+  role: "0",
 });
 
-gestorDeUsuarios.create({
+usersManager.create({
   photo: "foto7.jpg",
   email: "carlos_m@gmail.com",
   password: "charly123",
-  role: "user",
+  role: "0",
 });
 
-gestorDeUsuarios.create({
+usersManager.create({
   photo: "fotofrente.jpg",
   email: "donvictor@gmail.com",
   password: "vicky_@2",
-  role: "admin",
+  role: "0",
 });
 
-console.log(gestorDeUsuarios.read());
+console.log(usersManager.read());

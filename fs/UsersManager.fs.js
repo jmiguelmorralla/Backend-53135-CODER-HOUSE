@@ -1,5 +1,5 @@
-const fs = require("fs");
-const crypto = require("crypto");
+import fs from "fs";
+import crypto from "crypto";
 
 class UserManager {
   constructor() {
@@ -11,9 +11,9 @@ class UserManager {
     if (!exists) {
       const stringData = JSON.stringify([], null, 2);
       fs.writeFileSync(this.path, stringData);
-      console.log("ARCHIVO CREADO");
+      console.log("Created file.");
     } else {
-      console.log("ARCHIVO YA EXISTE");
+      console.log("File already exists.");
     }
   }
 
@@ -26,16 +26,16 @@ class UserManager {
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRueick0BA5tVSQJFjPJ49GPHAl30OzLnSjvRT_rpGv784YF5bCSHJ7V_qFVQ3aDkM2qlQ&usqp=CAU",
         email: data.email,
         password: data.password,
-        role: data.role,
+        role: data.role || "0",
       };
 
       if (!data.email || !data.password || !data.role) {
-        console.log("USUARIO NO CREADO, INGRESE TODOS LOS DATOS REQUERIDOS.");
+        console.log("Not created user. Please complete required data.");
       } else {
         let users = await fs.promises.readFile(this.path, "utf-8");
         users = JSON.parse(users);
         users.push(user);
-        console.log("Usuario Creado");
+        console.log("User created succesfully.");
         users = JSON.stringify(users, null, 2);
         await fs.promises.writeFile(this.path, users);
       }
@@ -43,12 +43,13 @@ class UserManager {
       console.log(error);
     }
   }
-  async read() {
+  async read(rol = "0") {
     try {
       let users = await fs.promises.readFile(this.path, "utf-8");
       users = JSON.parse(users);
+      users = users.filter(each=>each.role===rol)
       if (!users) {
-        new Error("ERROR EN LA LECTURA DEL ARRAY");
+        new Error("Fail at reading array.");
       } else {
         return users;
       }
@@ -64,7 +65,7 @@ class UserManager {
       let user = users.find((each) => each.id === id);
       console.log(user)
       if (!user) {
-        throw new Error("NO EXISTE EL USUARIO.");
+        throw new Error("User not found.");
       } else {
         console.log(user)
       return user};
@@ -80,12 +81,12 @@ class UserManager {
       users = JSON.parse(users);
       let user = users.find((each) => each.id === id)
       if (!user) {
-        throw new Error("NO EXISTEN USUARIOS CON ESE ID");
+        throw new Error("No ID users found.");
       } else {
         let filtered = users.filter((each) => each.id !== id);
         filtered = JSON.stringify(filtered, null, 2)
         await fs.promises.writeFile(this.path, filtered);
-        console.log("USUARIO " + id + " ELIMINADO");
+        console.log("Deleted " + id + " user.");
       }
     } catch (error) {
       console.log(error);
@@ -94,58 +95,60 @@ class UserManager {
 }
 
 async function testCreate() {
-  const gestorDeUsuarios = new UserManager();
-  await gestorDeUsuarios.create({
+  const usersManager = new UserManager();
+  await usersManager.create({
     photo: "foto.jpg",
     email: "juan@gmail.com",
     password: "holapepito@",
-    role: "admin",
+    role: "1",
   });
 
-  await gestorDeUsuarios.create({
+  await usersManager.create({
     email: "cecilia@gmail.com",
     password: "Cecilia123",
-    role: "user",
+    role: "0",
   });
 
-  await gestorDeUsuarios.create({
+  await usersManager.create({
     photo: "foto7.jpg",
     email: "carlos_m@gmail.com",
     password: "charly123",
-    role: "user",
+    role: "0",
   });
 
-  await gestorDeUsuarios.create({
+  await usersManager.create({
     photo: "fotofrente.jpg",
     email: "donvictor@gmail.com",
     password: "vicky_@2",
-    role: "admin",
+    role: "0",
   });
-  console.log(await gestorDeUsuarios.read());
+  console.log(await usersManager.read());
 }
 
 
 async function testRead() {
-  const gestorDeUsuarios = new UserManager();
-  await gestorDeUsuarios.read()
-  console.log(await gestorDeUsuarios.read())
+  const usersManager = new UserManager();
+  await usersManager.read()
+  console.log(await usersManager.read())
 }
 
 async function testReadOne() {
-  const gestorDeUsuarios = new UserManager();
-  await gestorDeUsuarios.readOne("0799b9ef85aac950d128ca3b")
-  console.log(await gestorDeUsuarios.readOne())
+  const usersManager = new UserManager();
+  await usersManager.readOne("")
+  console.log(await usersManager.readOne())
 }
 
 async function testDestroy() {
-  const gestorDeUsuarios = new UserManager();
-  await gestorDeUsuarios.destroy("f67970416bcef25ba0d54fc1")
-  console.log(await gestorDeUsuarios.readOne())
+  const usersManager = new UserManager();
+  await usersManager.destroy("")
+  console.log(await usersManager.readOne())
 }
 
-testCreate()
+// testCreate()
 // testRead()
 // testReadOne()
 // testDestroy()
 
 
+const usersManager = new UserManager()
+export default usersManager
