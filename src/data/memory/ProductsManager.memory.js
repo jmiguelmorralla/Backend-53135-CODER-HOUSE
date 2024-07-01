@@ -1,11 +1,11 @@
-const crypto = require("crypto");
+import { randomBytes } from "crypto";
 
 class ProductManager {
   static #products = [];
   create(data) {
     try {
-      const product = {
-        id: data.id || crypto.randomBytes(12).toString("hex"),
+      const one = {
+        id: data.id || randomBytes(12).toString("hex"),
         title: data.title,
         photo:
           data.photo ||
@@ -18,7 +18,7 @@ class ProductManager {
       if (!data.title) {
         console.log("Not created file. Please complete TITLE.");
       } else {
-        ProductManager.#products.push(product);
+        ProductManager.#products.push(one);
         console.log("Created Product.");
       }
     } catch (error) {
@@ -27,11 +27,11 @@ class ProductManager {
   }
   read() {
     try {
-      const products = ProductManager.#products;
-      if (!products) {
+      const all = ProductManager.#products;
+      if (!all) {
         throw new Error("Error at reading array.");
       } else {
-        return products;
+        return all;
       }
     } catch (error) {
       throw error;
@@ -40,12 +40,12 @@ class ProductManager {
 
   readOne(id) {
     try {
-      const product = ProductManager.#products.find((each) => each.id === id);
-      console.log(product);
-      if (!product) {
+      const one = ProductManager.#products.find((each) => each.id === id);
+      console.log(one);
+      if (!one) {
         throw new Error("Product does not exist.");
       } else {
-        return product;
+        return one;
       }
     } catch (error) {
       throw error;
@@ -54,13 +54,13 @@ class ProductManager {
 
   update(id, data) {
     try {
-      let product = ProductManager.#products.find((each) => each.id === id);
-      console.log(product);
-      if (product) {
+      let one = ProductManager.#products.find((each) => each.id === id);
+      console.log(one);
+      if (one) {
         for (let prop in data) {
-          product[prop] = data[prop];
+          one[prop] = data[prop];
         }
-        return product;
+        return one;
       } else {
         const error = new Error("Not product found.");
         error.statusCode = 404;

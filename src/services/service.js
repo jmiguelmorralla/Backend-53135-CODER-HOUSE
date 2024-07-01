@@ -1,10 +1,10 @@
 class Service {
-  constructor(manager) {
-    this.manager = manager;
+  constructor(repository) {
+    this.repository = repository;
   }
   createService = async (data) => {
     try {
-      const one = await this.manager.create(data);
+      const one = await this.repository.create(data);
       return one;
     } catch (error) {
       throw error;
@@ -12,7 +12,7 @@ class Service {
   };
   readService = async (role) => {
     try {
-      const all = await this.manager.read(role);
+      const all = await this.repository.read(role);
       return all;
     } catch (error) {
       throw error;
@@ -21,7 +21,7 @@ class Service {
 
   paginateService = async ({ filter, opts }) => {
     try {
-      const all = await this.manager.paginate({ filter, opts });
+      const all = await this.repository.paginate({ filter, opts });
       return all;
     } catch (error) {
       throw error;
@@ -30,7 +30,7 @@ class Service {
 
   readOneService = async (uid) => {
     try {
-      const one = await this.manager.readOne(uid);
+      const one = await this.repository.readOne(uid);
       return one;
     } catch (error) {
       throw error;
@@ -38,14 +38,14 @@ class Service {
   };
   updateService = async (uid, data) => {
     try {
-      const one = await this.manager.update(uid, data);
+      const one = await this.repository.update(uid, data);
     } catch (error) {
       throw error;
     }
   };
   destroyService = async (uid) => {
     try {
-      const one = await this.manager.destroy(uid);
+      const one = await this.repository.destroy(uid);
     } catch (error) {
       throw error;
     }

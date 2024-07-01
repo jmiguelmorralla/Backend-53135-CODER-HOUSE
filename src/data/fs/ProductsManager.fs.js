@@ -22,7 +22,7 @@ class ProductManager {
       if (!data.title) {
         throw new Error("Not created product. Please complete TITLE.");
       } else {
-        const product = {
+        const one = {
           id: crypto.randomBytes(12).toString("hex"),
           title: data.title,
           photo:
@@ -33,13 +33,13 @@ class ProductManager {
           stock: data.stock || 1,
         };
 
-        let products = await fs.promises.readFile(this.path, "utf-8");
-        products = JSON.parse(products);
-        products.push(product);
+        let all = await fs.promises.readFile(this.path, "utf-8");
+        all = JSON.parse(all);
+        all.push(one);
         console.log("Product created succesfully.");
-        products = JSON.stringify(products, null, 2);
-        await fs.promises.writeFile(this.path, products);
-        return product;
+        all = JSON.stringify(all, null, 2);
+        await fs.promises.writeFile(this.path, all);
+        return one;
       }
     } catch (error) {
       throw error;
@@ -47,13 +47,13 @@ class ProductManager {
   }
   async read(cat) {
     try {
-      let products = await fs.promises.readFile(this.path, "utf-8");
-      products = JSON.parse(products);
-      cat && (products = products.filter((each) => each.category === cat));
-      if (!products) {
+      let all = await fs.promises.readFile(this.path, "utf-8");
+      all = JSON.parse(all);
+      cat && (all = all.filter((each) => each.category === cat));
+      if (!all) {
         new Error("Error at reading array.");
       } else {
-        return products;
+        return all;
       }
     } catch (error) {
       console.log(error);
@@ -62,15 +62,15 @@ class ProductManager {
 
   async readOne(id) {
     try {
-      let products = await fs.promises.readFile(this.path, "utf-8");
-      products = JSON.parse(products);
-      let product = products.find((each) => each.id === id);
-      console.log(product);
-      if (!product) {
+      let all = await fs.promises.readFile(this.path, "utf-8");
+      all = JSON.parse(all);
+      let one = all.find((each) => each.id === id);
+      console.log(one);
+      if (!one) {
         throw new Error("Product does not exist.");
       } else {
-        console.log(product);
-        return product;
+        console.log(one);
+        return one;
       }
     } catch (error) {
       console.log(error);
@@ -79,16 +79,16 @@ class ProductManager {
 
   async update(id, data) {
     try {
-      let products = await fs.promises.readFile(this.path, "utf-8");
-      products = JSON.parse(products);
-      let product = products.find((each) => each.id === id);
-      if (product) {
+      let all = await fs.promises.readFile(this.path, "utf-8");
+      all = JSON.parse(all);
+      let one = all.find((each) => each.id === id);
+      if (one) {
         for (let prop in data) {
-          product[prop] = data[prop];
+          one[prop] = data[prop];
         }
-        products = JSON.stringify(products, null, 2);
-        await fs.promises.writeFile(this.path, products);
-        return product;
+        all = JSON.stringify(all, null, 2);
+        await fs.promises.writeFile(this.path, all);
+        return one;
       } else {
         const error = new Error("Not product found.");
         error.statusCode = 404;
@@ -101,19 +101,19 @@ class ProductManager {
 
   async destroy(id) {
     try {
-      let products = await fs.promises.readFile(this.path, "utf-8");
-      products = JSON.parse(products);
-      let product = products.find((each) => each.id === id);
-      if (!product) {
+      let all = await fs.promises.readFile(this.path, "utf-8");
+      all = JSON.parse(all);
+      let one = all.find((each) => each.id === id);
+      if (!one) {
         const error = new Error("Product does not exist.");
         error.statusCode = 404;
         throw error;
       } else {
-        let filtered = products.filter((each) => each.id !== id);
+        let filtered = all.filter((each) => each.id !== id);
         filtered = JSON.stringify(filtered, null, 2);
         await fs.promises.writeFile(this.path, filtered);
         console.log("Deleted " + id + " product.");
-        return product;
+        return one;
       }
     } catch (error) {
       throw error;

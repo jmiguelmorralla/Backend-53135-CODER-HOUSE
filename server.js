@@ -14,13 +14,14 @@ import pathHandler from "./src/middlewares/pathHandler.mid.js";
 import morgan from "morgan";
 import __dirname from "./utils.js";
 // import { engine } from "express-handlebars";
-import dbConnect from "./src/utils/dbConnect.util.js";
+// import dbConnect from "./src/utils/dbConnect.util.js";
 
 const server = express();
 const port = environment.PORT || argsUtil.p;
 const ready = async () => {
   console.log("Server ready on port: " + port + ".");
-  await dbConnect();
+  // await dbConnect();
+  // conexión a mongo desde factory
 };
 
 const nodeServer = createServer(server);

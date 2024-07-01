@@ -18,20 +18,20 @@ class CartManager {
 
   async create(data) {
     try {
-        const cart = {
+        const one = {
           id: data.id,
           user_id: data.user_id,
           product_id: data.product_id,
           quantity: data.quantity,
           state: data.state,
         };
-        let carts = await fs.promises.readFile(this.path, "utf-8");
-        carts = JSON.parse(carts);
-        carts.push(cart);
+        let all = await fs.promises.readFile(this.path, "utf-8");
+        all = JSON.parse(all);
+        all.push(one);
         console.log("Cart created succesfully.");
-        carts = JSON.stringify(carts, null, 2);
-        await fs.promises.writeFile(this.path, carts);
-        return cart;
+        all = JSON.stringify(all, null, 2);
+        await fs.promises.writeFile(this.path, all);
+        return one;
       
     } catch (error) {
       throw error;
@@ -39,13 +39,13 @@ class CartManager {
   }
   async read(status) {
     try {
-      let carts = await fs.promises.readFile(this.path, "utf-8");
-      carts = JSON.parse(carts);
-      status && (carts = carts.filter((each) => each.state === status));
-      if (!carts) {
+      let all = await fs.promises.readFile(this.path, "utf-8");
+      all = JSON.parse(all);
+      status && (all = all.filter((each) => each.state === status));
+      if (!all) {
         new Error("Fail at reading array.");
       } else {
-        return carts;
+        return all;
       }
     } catch (error) {
       throw error;
@@ -54,15 +54,15 @@ class CartManager {
 
   async readOne(id) {
     try {
-      let carts = await fs.promises.readFile(this.path, "utf-8");
-      carts = JSON.parse(carts);
-      let cart = carts.find((each) => each.id === id);
-      console.log(cart);
-      if (!cart) {
+      let all = await fs.promises.readFile(this.path, "utf-8");
+      all = JSON.parse(all);
+      let one = all.find((each) => each.id === id);
+      console.log(one);
+      if (!one) {
         throw new Error("Cart not found.");
       } else {
-        console.log(cart);
-        return cart;
+        console.log(one);
+        return one;
       }
     } catch (error) {
       throw error;
@@ -71,16 +71,16 @@ class CartManager {
 
   async update(id, data) {
     try {
-      let carts = await fs.promises.readFile(this.path, "utf-8");
-      carts = JSON.parse(carts);
-      let cart = carts.find((each) => each.id === id);
-      if (cart) {
+      let all = await fs.promises.readFile(this.path, "utf-8");
+      all = JSON.parse(all);
+      let one = all.find((each) => each.id === id);
+      if (one) {
         for (let prop in data) {
-          cart[prop] = data[prop];
+          one[prop] = data[prop];
         }
-        carts = JSON.stringify(carts, null, 2);
-        await fs.promises.writeFile(this.path, carts);
-        return cart;
+        all = JSON.stringify(all, null, 2);
+        await fs.promises.writeFile(this.path, all);
+        return one;
       } else {
         const error = new Error("No cart found.");
         error.statusCode = 404;
@@ -93,20 +93,20 @@ class CartManager {
 
   async destroy(id) {
     try {
-      let carts = await fs.promises.readFile(this.path, "utf-8");
-      carts = JSON.parse(carts);
-      let cart = carts.find((each) => each.id === id);
-      console.log(cart)
-      if (!cart) {
+      let all = await fs.promises.readFile(this.path, "utf-8");
+      all = JSON.parse(all);
+      let one = all.find((each) => each.id === id);
+      console.log(one)
+      if (!one) {
         const error = new Error("Cart does not exist.");
         error.statusCode = 404;
         throw error;
       } else {
-        let filtered = carts.filter((each) => each.id !== id);
+        let filtered = all.filter((each) => each.id !== id);
         filtered = JSON.stringify(filtered, null, 2);
         await fs.promises.writeFile(this.path, filtered);
         console.log("Deleted " + id + " cart.");
-        return cart;
+        return one;
       }
     } catch (error) {
       throw error;

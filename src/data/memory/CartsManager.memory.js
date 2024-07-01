@@ -2,7 +2,7 @@ class CartManager {
   static #carts = [];
   create(data) {
     try {
-      const cart = {
+      const one = {
         id: data.id,
         user_id: data.user_id,
         product_id: data.product_id,
@@ -10,9 +10,9 @@ class CartManager {
         state: data.state,
         };
 
-        CartManager.#carts.push(cart);
+        CartManager.#carts.push(one);
         console.log("Cart created succesfully.");
-        return cart;
+        return one;
 
     } catch (error) {
       throw error;
@@ -20,11 +20,11 @@ class CartManager {
   }
   read() {
     try {
-      const carts = CartManager.#carts;
-      if (!carts) {
+      const all = CartManager.#carts;
+      if (!all) {
         throw new Error("Fail at reading array");
       } else {
-        return carts;
+        return all;
       }
     } catch (error) {
       throw error;
@@ -33,11 +33,11 @@ class CartManager {
 
   readOne(id) {
     try {
-      const cart = CartManager.#carts.find((each) => each.id === id);
-      if (!cart) {
+      const one = CartManager.#carts.find((each) => each.id === id);
+      if (!one) {
         throw new Error("Cart not found.");
       } else {
-        return cart;
+        return one;
       }
     } catch (error) {
       throw error;
@@ -46,13 +46,13 @@ class CartManager {
 
   update(id, data) {
     try {
-      let cart = CartManager.#carts.find((each) => each.id === id);
-      console.log(cart);
-      if (cart) {
+      let one = CartManager.#carts.find((each) => each.id === id);
+      console.log(one);
+      if (one) {
         for (let prop in data) {
-          cart[prop] = data[prop];
+          one[prop] = data[prop];
         }
-        return cart;
+        return one;
       } else {
         const error = new Error("Not cart found.");
         error.statusCode = 404;
